@@ -1,0 +1,117 @@
+# pyproject.toml
+
+[build-system]
+# Specifies that setuptools is needed to build the package
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+# Core project metadata (PEP 621)
+name = "whippet-ai"  # Changed slightly to avoid potential PyPI conflicts, adjust as needed
+version = "0.1.0"   # Initial version
+authors = [
+    { name = "Antone King", email = "toneking972@gmail.com" },
+]
+description = "An experimental library for accelerating LLM fine-tuning using Triton kernels."
+readme = "README.md"
+license = { file = "LICENSE" } # Assumes you have a LICENSE file (e.g., Apache-2.0)
+requires-python = ">=3.9"  # Minimum Python version compatibility (check PyTorch/Triton needs)
+
+# Keywords for discoverability
+keywords = ["llm", "fine-tuning", "optimization", "triton", "gpu", "pytorch", "performance"]
+
+# Trove classifiers for PyPI categorization
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha", # Start as Pre-Alpha or Alpha
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License", # Or MIT License, etc.
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+# Runtime dependencies needed for whippet to work
+dependencies = [
+    # Check PyTorch version compatibility with your CUDA and desired Triton version
+    "torch>=2.2.0",
+    # Specify Triton version carefully - check compatibility!
+    # Installation might require matching CUDA version.
+    "triton>=2.2.0",
+    # For model loading and integration
+    "transformers>=4.40.0",
+    "packaging", # Useful for version comparisons etc.
+    # Add other core dependencies as needed
+]
+
+[project.urls]
+# Optional: Links for users
+"Homepage" = "https://github.com/antonemking/whippet" # Replace with actual URL
+"Repository" = "https://github.com/antonemking/whippet"
+# "Documentation" = "https://your_docs_url" # Add later if you host docs
+
+[project.optional-dependencies]
+# Dependencies for development, testing, docs, etc.
+# Install with: pip install .[dev,tests]
+
+dev = [
+    "ruff",         # Linter and formatter
+    "black",        # Formatter (optional if using ruff format)
+]
+
+tests = [
+    "pytest>=7.0.0", # Test runner
+    "pytest-cov",   # Code coverage reporting
+    # Add any specific testing libraries if needed
+]
+
+docs = [
+    "sphinx>=6.0.0",      # Documentation generator
+    "furo",               # A clean Sphinx theme
+    "myst-parser",        # To write docs in Markdown
+    "sphinx-copybutton",  # Add copy buttons to code blocks
+    # Add other Sphinx extensions as needed
+]
+
+benchmark = [
+    "accelerate",   # For easy multi-GPU/mixed-precision benchmarking
+    "datasets",     # For loading benchmark datasets
+    "pandas",       # For results analysis
+    "py-cpuinfo",   # For system info logging
+    "py3nvml",      # For GPU info logging
+]
+
+[tool.setuptools]
+# Tells setuptools where to find the package source code
+# Assumes your code is inside 'src/whippet'
+package-dir = {"" = "src"}
+packages = ["whippet"] # Explicitly list main package
+# Add `find:` directive if your structure is different or complex
+# packages = find: {where = ["src"]}
+
+# If you need to include non-code files within your package:
+# [tool.setuptools.package-data]
+# whippet = ["kernels/configs/*.json"] # Example
+
+[tool.ruff]
+# Configuration for the Ruff linter/formatter (recommended)
+line-length = 88
+target-version = "py39" # Set to your minimum supported Python version
+
+[tool.ruff.lint]
+# Select lint rules (start with common ones)
+select = ["E", "F", "W", "I", "UP"] # Error, Pyflakes, Warning, Isort, Pyupgrade
+
+[tool.ruff.format]
+# Optional: configure ruff's formatter if using instead of black
+
+[tool.pytest.ini_options]
+# Configuration for pytest
+minversion = "6.0"
+addopts = "-ra -q --cov=src/whippet --cov-report=term-missing" # Basic options: report short summary, quiet, coverage
+testpaths = [
+    "tests",
+]
