@@ -1,0 +1,15 @@
+torch>=2.7
+numpy
+onnx
+onnxruntime
+tqdm
+rich
+
+[dev]
+pytest
+black
+ruff
+mypy
+
+[gpu]
+triton

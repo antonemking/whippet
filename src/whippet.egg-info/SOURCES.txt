@@ -1,0 +1,14 @@
+LICENSE
+README.md
+pyproject.toml
+src/whippet/__init__.py
+src/whippet/cli.py
+src/whippet/compare.py
+src/whippet/core.py
+src/whippet/profiler.py
+src/whippet.egg-info/PKG-INFO
+src/whippet.egg-info/SOURCES.txt
+src/whippet.egg-info/dependency_links.txt
+src/whippet.egg-info/entry_points.txt
+src/whippet.egg-info/requires.txt
+src/whippet.egg-info/top_level.txt

@@ -1,0 +1,25 @@
+Metadata-Version: 2.4
+Name: whippet
+Version: 0.1.0
+Summary: Quantization toolkit for optimizing small LLMs for deployment
+Author-email: Antone King <toneking972@gmail.com>
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: torch>=2.7
+Requires-Dist: numpy
+Requires-Dist: onnx
+Requires-Dist: onnxruntime
+Requires-Dist: tqdm
+Requires-Dist: rich
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: ruff; extra == "dev"
+Requires-Dist: mypy; extra == "dev"
+Provides-Extra: gpu
+Requires-Dist: triton; extra == "gpu"
+Dynamic: license-file
+
+# whippet
+Making LLMs fast
