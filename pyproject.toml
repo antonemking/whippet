@@ -37,10 +37,10 @@ classifiers = [
 # Runtime dependencies needed for whippet to work
 dependencies = [
     # Check PyTorch version compatibility with your CUDA and desired Triton version
-    "torch>=2.2.0",
+    "torch>=2.7.0",
     # Specify Triton version carefully - check compatibility!
     # Installation might require matching CUDA version.
-    "triton>=2.2.0",
+    "triton>=3.3.0",
     # For model loading and integration
     "transformers>=4.40.0",
     "packaging", # Useful for version comparisons etc.
