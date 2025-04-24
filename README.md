@@ -1,0 +1,2 @@
+# whippet
+Making LLMs fast
