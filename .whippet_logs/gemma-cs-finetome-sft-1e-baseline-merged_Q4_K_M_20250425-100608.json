@@ -1,0 +1,22 @@
+{
+  "model": "gemma-cs-finetome-sft-1e-baseline-merged_Q4_K_M.gguf",
+  "prompt": "Explain what a black hole is.",
+  "hardware": {
+    "cpu": "Apple M3 Pro",
+    "cores": 11,
+    "ram_gb": 19.33,
+    "os": "macOS 15.3.2"
+  },
+  "metrics": {
+    "duration_sec": 5.52,
+    "tokens_per_sec": 27.52,
+    "prompt_tokens": 6,
+    "output_tokens": 152,
+    "total_tokens": 158,
+    "tokens_per_sec_per_core": 2.5,
+    "cost_per_token": 2.824561403508772e-08,
+    "carbon_per_token": 8.41315789473684e-05
+  },
+  "output_preview": "A black hole is a region in spacetime with such a strong gravitational pull that nothing, not even light, can escape it. The gravitational pull of a black hole is caused by a large concentration of mass in a small volume. This concentration of mass creates a strong gravitational field that warps the",
+  "timestamp": "2025-04-25T10:06:08.084794"
+}

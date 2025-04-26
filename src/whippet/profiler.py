@@ -5,17 +5,34 @@ import subprocess
 import os
 from rich.console import Console
 from shutil import which
+from whippet.metrics import count_tokens, estimate_cost_per_token, estimate_carbon_per_token
+from whippet.logger import save_benchmark_log
 
 console = Console()
 
+import platform
+import subprocess
+
 def detect_hardware():
-    console.print("[bold]🔍 Detecting Hardware...")
+    try:
+        cpu = subprocess.check_output(["sysctl", "-n", "machdep.cpu.brand_string"]).decode().strip()
+    except:
+        cpu = platform.processor()
+
+    try:
+        # Get macOS version name (e.g., macOS 14.4)
+        os_version = subprocess.check_output(["sw_vers", "-productVersion"]).decode().strip()
+        os_name = f"macOS {os_version}"
+    except:
+        os_name = platform.system()
+
     return {
-        "cpu": platform.processor(),
-        "cores": psutil.cpu_count(logical=False),
+        "cpu": cpu,
+        "cores": os.cpu_count(),
         "ram_gb": round(psutil.virtual_memory().total / 1e9, 2),
-        "os": platform.system()
+        "os": os_name
     }
+
 
 def get_llama_bin(cli_path=None):
     # 1. CLI flag overrides everything
@@ -51,8 +68,6 @@ def run_inference(model_path, prompt, simulate_cores=None, llama_bin_path=None):
     env = os.environ.copy()
     if simulate_cores:
         env["OMP_NUM_THREADS"] = str(simulate_cores)
-
-    print("🚀 Running:", " ".join(cmd))
     
     start = time.perf_counter()
     result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
@@ -74,18 +89,53 @@ def run_inference(model_path, prompt, simulate_cores=None, llama_bin_path=None):
         "duration": round(end - start, 2)
     }
 
+from whippet.printer import (
+    print_whippet_intro,
+    print_system_info,
+    print_benchmark_results,
+    print_token_analysis,
+    print_resource_estimates,
+    print_run_header
+)
 
 
-def profile_model(model_path, prompt, simulate_cores=None, llama_bin_path=None):
+def profile_model(model_path, prompt, simulate_cores=None, llama_bin_path=None, enable_logging=False):
+
+    print_whippet_intro()
+
     specs = detect_hardware()
-    bench = run_inference(model_path, prompt, simulate_cores, llama_bin_path)
+    print_system_info(specs)
 
-    console.print("\n[bold green]🧪 Benchmark Results")
-    console.print(f"🧠 CPU: {specs['cpu']}")
-    console.print(f"💾 RAM: {specs['ram_gb']} GB")
-    console.print(f"🚀 Tokens/sec: {bench['tokens/sec']}")
-    console.print(f"⏱️ Duration: {bench['duration']}s")
-    console.print(f"📤 Output: {bench['output'][:200]}...")
+    print_run_header(model_path, prompt)
+
+    bench = run_inference(model_path, prompt, simulate_cores, llama_bin_path)
+    print_benchmark_results(bench)
+
+    output = bench['output']
+    prompt_tokens = count_tokens(prompt)
+    output_tokens = count_tokens(output)
+    efficiency = bench['tokens/sec'] / specs['cores']
+    print_token_analysis(prompt_tokens, output_tokens, efficiency)
+
+    watts = 20  # Estimated for this CPU
+    cost = estimate_cost_per_token(watts, bench['duration'], 0.14, output_tokens)
+    carbon = estimate_carbon_per_token(watts, bench['duration'], 417, output_tokens)
+    print_resource_estimates(cost, carbon)
+
+    log_path = save_benchmark_log(
+        model_name=os.path.basename(model_path),
+        prompt=prompt,
+        specs=specs,
+        bench=bench,
+        prompt_tokens=prompt_tokens,
+        output_tokens=output_tokens,
+        cost=cost,
+        carbon=carbon,
+        enable_logging=enable_logging
+    )
+
+    if log_path:
+        console.print(f"[dim]📁 Log saved to: {log_path}")
 
     return bench
 

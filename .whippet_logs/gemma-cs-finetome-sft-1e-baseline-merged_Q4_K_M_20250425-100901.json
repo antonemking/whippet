@@ -1,0 +1,22 @@
+{
+  "model": "gemma-cs-finetome-sft-1e-baseline-merged_Q4_K_M.gguf",
+  "prompt": "Explain what a black hole is.",
+  "hardware": {
+    "cpu": "Apple M3 Pro",
+    "cores": 11,
+    "ram_gb": 19.33,
+    "os": "macOS 15.3.2"
+  },
+  "metrics": {
+    "duration_sec": 3.26,
+    "tokens_per_sec": 25.46,
+    "prompt_tokens": 6,
+    "output_tokens": 83,
+    "total_tokens": 89,
+    "tokens_per_sec_per_core": 2.31,
+    "cost_per_token": 3.0548862115127176e-08,
+    "carbon_per_token": 9.099196787148594e-05
+  },
+  "output_preview": "A black hole is a region in space where gravity is so strong that nothing, not even light, can escape from its pull. This extreme gravity is caused by the immense mass packed into a very small space, a phenomenon known as a singularity. Black holes are formed when massive stars collapse under their ",
+  "timestamp": "2025-04-25T10:09:01.614721"
+}

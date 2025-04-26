@@ -1,0 +1,22 @@
+{
+  "model": "gemma-cs-finetome-sft-1e-baseline-merged_Q4_K_M.gguf",
+  "prompt": "Explain what a black hole is.",
+  "hardware": {
+    "cpu": "arm",
+    "cores": 11,
+    "ram_gb": 19.33,
+    "os": "Darwin"
+  },
+  "metrics": {
+    "duration_sec": 3.4,
+    "tokens_per_sec": 18.25,
+    "prompt_tokens": 6,
+    "output_tokens": 62,
+    "total_tokens": 68,
+    "tokens_per_sec_per_core": 1.66,
+    "cost_per_token": 4.265232974910395e-08,
+    "carbon_per_token": 0.00012704301075268818
+  },
+  "output_preview": "A black hole is a region of space where the gravitational pull is so strong that nothing, not even light or other electromagnetic radiation, can escape. They are created when the most massive stars collapse at the end of their lives. The intense gravity of black holes is caused by the mass of the st",
+  "timestamp": "2025-04-25T09:55:31.388968"
+}
